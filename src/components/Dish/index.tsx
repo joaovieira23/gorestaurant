@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 
-import dishImg from '../../assets/molho.png';
-import api from '../../service/api';
+// import dishImg from '../../assets/molho.png';
 
 import { Container } from './styles';
 
@@ -19,10 +18,18 @@ interface IProps {
   food: IFoodProperty;
 }
 
-const Dish: React.FC<IProps> = ({ food }: IProps) => {
+const Dish: React.FC<IProps> = ({
+  food
+}: IProps) => {
+  const [isAvailable, setIsAvailable] = useState(food.available);
+
+  async function toggleAvailable(): Promise<void> {
+    // TODO UPDATE STATUS (available)
+    setIsAvailable(!isAvailable);
+  }
 
   return (
-    <Container>
+    <Container available={isAvailable}>
       <header>
         <img src={food.image} alt="dish" />
       </header>

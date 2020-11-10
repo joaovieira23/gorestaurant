@@ -1,10 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface IFoodPlateProps {
+  available: boolean;
+}
+
+export const Container = styled.div<IFoodPlateProps>`
   background: #222;
   border-radius: 8px;
 
+  transition: transform 0.2s linear;
+
   cursor: pointer;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
 
   @media(max-width: 885px) {
     margin-bottom: 20px;
@@ -16,6 +26,12 @@ export const Container = styled.div`
     height: 192px;
     overflow: hidden;
     text-align: center;
+
+    ${props =>
+    !props.available &&
+    css`
+        opacity: 0.3;
+      `};
 
     img {
       pointer-events: none;
