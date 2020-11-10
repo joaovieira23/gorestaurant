@@ -5,6 +5,7 @@ import Dish from '../../components/Dish';
 import api from '../../service/api';
 
 import { DishContainer } from './styles';
+import ModalAddFood from '../../components/ModalAddFood';
 
 interface IFoodsProperty {
   id: string;
@@ -22,6 +23,23 @@ const Dashboard: React.FC = () => {
     setModalOpen(!modalOpen);
   }, [])
 
+  async function handleAddFood(
+    food: Omit<IFoodsProperty, 'id' | 'available'>,
+  ): Promise<void> {
+    try {
+      // TODO ADD A NEW FOOD PLATE TO THE API
+      const id = foods.length + 1;
+
+      const updatedFood = { id, ...food, available: true };
+
+      const response = await api.post('foods', updatedFood);
+
+      setFoods([...foods, response.data]);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const [foods, setFoods] = useState<IFoodsProperty[]>([]);
   useEffect(() => {
     async function loadFoods(): Promise<void> {
@@ -34,6 +52,11 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header openModal={toggleModal} />
+      <ModalAddFood
+        isOpen={modalOpen}
+        setIsOpen={toggleModal}
+        handleAddFood={handleAddFood}
+      />
       <DishContainer>
         {foods &&
           foods.map(food => (
