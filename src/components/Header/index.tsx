@@ -5,7 +5,11 @@ import { Container } from './styles';
 
 import Logo from '../../assets/logo.svg';
 
-const Header: React.FC = () => (
+interface IHeaderProps {
+  openModal: () => void;
+}
+
+const Header: React.FC<IHeaderProps> = ({ openModal }) => (
   <Container>
     <header>
       <img src={Logo} alt="GoRestaurant" />
@@ -13,6 +17,9 @@ const Header: React.FC = () => (
         <div>
           <button
             type="button"
+            onClick={() => {
+              openModal();
+            }}
           >
             <div className="text">Novo Prato</div>
             <div className="icon">

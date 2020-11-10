@@ -22,7 +22,6 @@ export const Container = styled.div`
       user-select: none;
       width: auto;
       height: auto;
-      margin-top: 26px;
     }
   }
 

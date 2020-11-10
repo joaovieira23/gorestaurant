@@ -16,6 +16,11 @@ interface IFoodsProperty {
 }
 
 const Dashboard: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = useCallback(() => {
+    setModalOpen(!modalOpen);
+  }, [])
 
   const [foods, setFoods] = useState<IFoodsProperty[]>([]);
   useEffect(() => {
@@ -28,7 +33,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header openModal={toggleModal} />
       <DishContainer>
         {foods &&
           foods.map(food => (
