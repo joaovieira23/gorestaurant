@@ -15,46 +15,49 @@ interface IFoodPlate {
   available: boolean;
 }
 
-interface ICreateFoodData {
+interface IModalProps {
+  isOpen: boolean;
+  setIsOpen: () => void;
+  handleUpdateFood: (food: Omit<IFoodPlate, 'id' | 'available'>) => void;
+  editingFood: IFoodPlate;
+}
+
+interface IEditFoodData {
   name: string;
   image: string;
   price: string;
   description: string;
 }
 
-interface IModalProps {
-  isOpen: boolean;
-  setIsOpen: () => void;
-  handleAddFood: (food: Omit<IFoodPlate, 'id' | 'available'>) => void;
-}
-
-const ModalAddFood: React.FC<IModalProps> = ({
+const ModalEditFood: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
-  handleAddFood,
+  editingFood,
+  handleUpdateFood,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
-    async (data: ICreateFoodData) => {
-      handleAddFood(data);
+    async (data: IEditFoodData) => {
+      handleUpdateFood(data);
       setIsOpen();
     },
-    [handleAddFood, setIsOpen],
+    [handleUpdateFood, setIsOpen],
   );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Novo Prato</h1>
+      <Form ref={formRef} onSubmit={handleSubmit} initialData={editingFood}>
+        <h1>Editar Prato</h1>
         <Input name="image" placeholder="Cole o link aqui" />
 
         <Input name="name" placeholder="Ex: Moda Italiana" />
         <Input name="price" placeholder="Ex: 19.90" />
 
         <Input name="description" placeholder="Descrição" />
-        <button type="submit" data-testid="add-food-button">
-          <p className="text">Adicionar Prato</p>
+
+        <button type="submit" data-testid="edit-food-button">
+          <div className="text">Editar Prato</div>
           <div className="icon">
             <FiCheckSquare size={24} />
           </div>
@@ -64,4 +67,4 @@ const ModalAddFood: React.FC<IModalProps> = ({
   );
 };
 
-export default ModalAddFood;
+export default ModalEditFood;
